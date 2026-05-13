@@ -1,0 +1,6 @@
+# Enforce LF for all text files
+* text=auto eol=lf
+
+# Explicitly enforce LF for TypeScript and React files
+*.ts text eol=lf
+*.tsx text eol=lf
