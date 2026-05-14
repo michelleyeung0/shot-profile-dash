@@ -111,4 +111,7 @@ export type Shot = {
 
   /** True if the shot was taken from beyond the 3-point line */
   is_three_pointer: boolean | null;
+
+  /** True if the shot was taken from within the restricted area */
+  is_rim: boolean | null;
 };

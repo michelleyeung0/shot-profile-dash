@@ -37,7 +37,7 @@ function renderSpinner(): ReactElement {
       radius="1"
       visible={true}
     />
-  )
+  );
 }
 
 export default function CourtContainer({
