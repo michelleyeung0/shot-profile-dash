@@ -12,7 +12,7 @@ export default function ShotMapPage() {
       try {
         const response = await fetch("/api/shots");
         const data = await response.json();
-        console.log("Fetched shots:", data.length);
+        console.error("Fetched shots:", data.length);
         setShots(data);
       } catch (error) {
         console.error("Error fetching shots:", error);
