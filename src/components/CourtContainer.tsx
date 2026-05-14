@@ -1,16 +1,31 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { Shot } from "@/types/shot";
+import { Shot, ShotType, ContestLevel } from "@/types/shot";
 import HalfCourtSVG from "./HalfCourtSVG";
 import ShotCanvas from "./ShotCanvas";
 
 type CourtContainerProps = {
   shots: Shot[];
   label?: string;
+  showTooltips?: boolean;
 };
 
-export default function CourtContainer({ shots, label }: CourtContainerProps) {
+const SHOT_TYPE_LABELS: Record<ShotType, string> = {
+  [ShotType.Jumper]: "Jumper",
+  [ShotType.Post]: "Post",
+  [ShotType.Floater]: "Floater",
+  [ShotType.Layup]: "Layup",
+  [ShotType.Heave]: "Heave",
+};
+
+const CONTEST_LABELS: Record<ContestLevel, string> = {
+  [ContestLevel.Uncontested]: "Uncontested",
+  [ContestLevel.LightlyContested]: "Lightly Contested",
+  [ContestLevel.HeavilyContested]: "Heavily Contested",
+};
+
+export default function CourtContainer({ shots, label, showTooltips }: CourtContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [courtDimensions, setCourtDimensions] = useState({
@@ -19,6 +34,8 @@ export default function CourtContainer({ shots, label }: CourtContainerProps) {
     left: 0,
     top: 0,
   });
+  const [hoveredShot, setHoveredShot] = useState<Shot | null>(null);
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     function updateDimensions() {
@@ -33,13 +50,11 @@ export default function CourtContainer({ shots, label }: CourtContainerProps) {
       let courtWidth, courtHeight, courtLeft, courtTop;
 
       if (containerAspectRatio > aspectRatio) {
-        // Container is wider than court ratio — constrained by height
         courtHeight = height;
         courtWidth = height * aspectRatio;
         courtLeft = (width - courtWidth) / 2;
         courtTop = 0;
       } else {
-        // Container is taller than court ratio — constrained by width
         courtWidth = width;
         courtHeight = width / aspectRatio;
         courtLeft = 0;
@@ -62,13 +77,46 @@ export default function CourtContainer({ shots, label }: CourtContainerProps) {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!showTooltips) setHoveredShot(null);
+  }, [showTooltips]);
+
+  function handleHover(shot: Shot | null, canvasX: number, canvasY: number) {
+    setHoveredShot(shot);
+    if (shot) {
+      setTooltipPos({
+        x: courtDimensions.left + canvasX,
+        y: courtDimensions.top + canvasY,
+      });
+    }
+  }
+
   return (
     <div
       ref={containerRef}
       style={{ position: "relative", width: "100%", height: "100%" }}
     >
       <HalfCourtSVG svgRef={svgRef} label={label} />
-      <ShotCanvas shots={shots} courtDimensions={courtDimensions} />
+      <ShotCanvas
+        shots={shots}
+        courtDimensions={courtDimensions}
+        showTooltips={showTooltips}
+        hoveredShot={hoveredShot}
+        onHover={handleHover}
+      />
+      {hoveredShot && (
+        <div
+          style={{ left: tooltipPos.x + 12, top: tooltipPos.y - 12 }}
+          className="absolute z-10 pointer-events-none bg-gray-900 text-white text-xs rounded-lg px-3 py-2 shadow-lg flex flex-col gap-1 min-w-[140px]"
+        >
+          <div className="text-gray-300">{SHOT_TYPE_LABELS[hoveredShot.shot_type]}</div>
+          <div className="text-gray-300">{CONTEST_LABELS[hoveredShot.contest_level]}</div>
+          <div className="text-gray-300">{hoveredShot.assisted ? "Assisted" : "Unassisted"}</div>
+          <div className="text-gray-300">
+            {hoveredShot.catch_and_shoot ? "Catch & shoot" : `${hoveredShot.dribbles_before} dribble${hoveredShot.dribbles_before !== 1 ? "s" : ""}`}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
