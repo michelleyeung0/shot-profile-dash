@@ -16,7 +16,7 @@ const PX_PER_FT_X = (COURT_RIGHT - COURT_LEFT) / COURT_WIDTH_FT;
 const PX_PER_FT_Y = (COURT_BOTTOM - COURT_TOP) / COURT_LENGTH_FT;
 
 /**
- * Converts shot coordinates from data to SVG pixel coordinates
+ * Converts shot coordinates from data to SVG pixel coordinates because
  * SVG half court is rotated 90 degrees counterclockwise from data coordinates
  *
  * @param dataX (baseline to half court) maps to SVG vertical (y)

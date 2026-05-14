@@ -72,14 +72,14 @@ export default function ShotMapPage() {
         />
         <div className="flex-1 min-h-0">
           <CourtContainer
-                  shots={filteredShots}
-                  showTooltips={filters.player !== null}
-                  label={
-                    filteredShots.length > 0
-                      ? `${((filteredShots.filter((s) => s.outcome).length / filteredShots.length) * 100).toFixed(1)}% FG`
-                      : ""
-                  }
-                />
+            shots={filteredShots}
+            showTooltips={filters.player !== null}
+            label={
+              filteredShots.length > 0
+                ? `${((filteredShots.filter((s) => s.outcome).length / filteredShots.length) * 100).toFixed(1)}% FG`
+                : ""
+            }
+          />
         </div>
       </div>
     </main>

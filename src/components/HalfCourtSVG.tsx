@@ -3,7 +3,10 @@ type HalfCourtSVGProps = {
   label?: string;
 };
 
-export default function HalfCourtSVG({ svgRef, label = "SHOT MAP" }: HalfCourtSVGProps) {
+export default function HalfCourtSVG({
+  svgRef,
+  label = "SHOT MAP",
+}: HalfCourtSVGProps) {
   return (
     <svg
       ref={svgRef}
@@ -67,9 +70,13 @@ export default function HalfCourtSVG({ svgRef, label = "SHOT MAP" }: HalfCourtSV
 
       {/* Legend */}
       <circle cx={320} cy={730} r={7} fill="rgba(59, 130, 246, 0.65)" />
-      <text x={334} y={735} className="legend-label">Made</text>
+      <text x={334} y={735} className="legend-label">
+        Made
+      </text>
       <circle cx={430} cy={730} r={7} fill="rgba(239, 68, 68, 0.6)" />
-      <text x={444} y={735} className="legend-label">Missed</text>
+      <text x={444} y={735} className="legend-label">
+        Missed
+      </text>
 
       {/* 3-Point Line */}
       {/* Corners: 3ft from sideline = 42px → x=92 and x=708 */}
