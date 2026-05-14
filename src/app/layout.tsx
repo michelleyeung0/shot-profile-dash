@@ -28,15 +28,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen body-bg`}
       >
-        <nav className="bg-white border-b border-gray-200 px-6 py-4">
+        <nav className="bg-white border-b border-gray-200 pr-6 py-4">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <span className="font-semibold text-lg tracking-tight text-gray-900">
+            <Link href="/" className="font-semibold text-lg tracking-tight text-gray-900">
               Shot Profile Dashboard
-            </span>
+            </Link>
             <div className="flex gap-6 text-sm text-gray-500">
-              <Link href="/" className="hover:text-gray-900 transition-colors">
-                Home
-              </Link>
               <Link
                 href="/shot-map"
                 className="hover:text-gray-900 transition-colors"

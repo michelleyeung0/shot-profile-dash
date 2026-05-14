@@ -45,7 +45,7 @@ export default function FilterPanel({
   }
 
   return (
-    <div className="w-52 flex-shrink-0 flex flex-col gap-5 overflow-y-auto text-sm bg-gray-200 text-gray-900 rounded-lg p-4">
+    <div className="w-52 flex-shrink-0 self-start flex flex-col gap-5 overflow-y-auto text-sm bg-gray-200 text-gray-900 rounded-lg p-4">
       <div className="flex items-center justify-between">
         <span className="font-semibold text-base">Filters</span>
         <button
