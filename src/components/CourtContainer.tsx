@@ -77,9 +77,7 @@ export default function CourtContainer({ shots, label, showTooltips }: CourtCont
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (!showTooltips) setHoveredShot(null);
-  }, [showTooltips]);
+  const activeHoveredShot = showTooltips ? hoveredShot : null;
 
   function handleHover(shot: Shot | null, canvasX: number, canvasY: number) {
     setHoveredShot(shot);
@@ -101,19 +99,19 @@ export default function CourtContainer({ shots, label, showTooltips }: CourtCont
         shots={shots}
         courtDimensions={courtDimensions}
         showTooltips={showTooltips}
-        hoveredShot={hoveredShot}
+        hoveredShot={activeHoveredShot}
         onHover={handleHover}
       />
-      {hoveredShot && (
+      {activeHoveredShot && (
         <div
           style={{ left: tooltipPos.x + 12, top: tooltipPos.y - 12 }}
           className="absolute z-10 pointer-events-none bg-gray-900 text-white text-xs rounded-lg px-3 py-2 shadow-lg flex flex-col gap-1 min-w-[140px]"
         >
-          <div className="text-gray-300">{SHOT_TYPE_LABELS[hoveredShot.shot_type]}</div>
-          <div className="text-gray-300">{CONTEST_LABELS[hoveredShot.contest_level]}</div>
-          <div className="text-gray-300">{hoveredShot.assisted ? "Assisted" : "Unassisted"}</div>
+          <div className="text-gray-300">{SHOT_TYPE_LABELS[activeHoveredShot.shot_type]}</div>
+          <div className="text-gray-300">{CONTEST_LABELS[activeHoveredShot.contest_level]}</div>
+          <div className="text-gray-300">{activeHoveredShot.assisted ? "Assisted" : "Unassisted"}</div>
           <div className="text-gray-300">
-            {hoveredShot.catch_and_shoot ? "Catch & shoot" : `${hoveredShot.dribbles_before} dribble${hoveredShot.dribbles_before !== 1 ? "s" : ""}`}
+            {activeHoveredShot.catch_and_shoot ? "Catch & shoot" : `${activeHoveredShot.dribbles_before} dribble${activeHoveredShot.dribbles_before !== 1 ? "s" : ""}`}
           </div>
         </div>
       )}
