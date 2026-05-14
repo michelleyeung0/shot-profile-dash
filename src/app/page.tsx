@@ -17,18 +17,14 @@ export default function Home() {
           className="group block p-6 rounded-xl border border-gray-800 hover:border-gray-600 transition-colors"
         >
           <h2 className="text-xl font-semibold mb-2">Shot Map</h2>
-          <p className="text-gray-400 text-sm">
-            Dashboard 1 description
-          </p>
+          <p className="text-gray-400 text-sm">Dashboard 1 description</p>
         </Link>
         <Link
           href="/tendencies"
           className="group block p-6 rounded-xl border border-gray-800 hover:border-gray-600 transition-colors"
         >
           <h2 className="text-xl font-semibold mb-2">Player Tendencies</h2>
-          <p className="text-gray-400 text-sm">
-            Dashboard 2 description
-          </p>
+          <p className="text-gray-400 text-sm">Dashboard 2 description</p>
         </Link>
       </div>
     </main>

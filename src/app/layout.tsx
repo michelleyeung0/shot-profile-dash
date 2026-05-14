@@ -26,33 +26,33 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-950 text-white min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen body-bg`}
       >
-        <nav className="border-b border-gray-800 px-6 py-4">
+        <nav className="bg-white border-b border-gray-200 px-6 py-4">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <span className="font-semibold text-lg tracking-tight">
+            <span className="font-semibold text-lg tracking-tight text-gray-900">
               Shot Profile Dashboard
             </span>
-            <div className="flex gap-6 text-sm text-gray-400">
-              <Link href="/" className="hover:text-white transition-colors">
+            <div className="flex gap-6 text-sm text-gray-500">
+              <Link href="/" className="hover:text-gray-900 transition-colors">
                 Home
               </Link>
               <Link
                 href="/shot-map"
-                className="hover:text-white transition-colors"
+                className="hover:text-gray-900 transition-colors"
               >
                 Shot Map
               </Link>
               <Link
                 href="/tendencies"
-                className="hover:text-white transition-colors"
+                className="hover:text-gray-900 transition-colors"
               >
                 Player Tendencies
               </Link>
             </div>
           </div>
         </nav>
-        <div className="max-w-7xl mx-auto px-6 py-8">{children}</div>
+        <div className="w-full">{children}</div>
       </body>
     </html>
   );

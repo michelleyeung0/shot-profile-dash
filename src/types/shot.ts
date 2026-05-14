@@ -1,36 +1,36 @@
 export enum ShotType {
-  Heave = 'heave',
-  Jumper = 'jumper',
-  Post = 'post',
-  Floater = 'floater',
-  Layup = 'layup',
+  Heave = "heave",
+  Jumper = "jumper",
+  Post = "post",
+  Floater = "floater",
+  Layup = "layup",
 }
 
 export enum ComplexShotType {
-  Heave = 'heave',
-  CatchAndShoot = 'catchAndShoot',
-  CatchAndShootRelocating = 'catchAndShootRelocating',
-  CatchAndShootOnMoveLeft = 'catchAndShootOnMoveLeft',
-  CatchAndShootOnMoveRight = 'catchAndShootOnMoveRight',
-  PullupJumper = 'pullupJumper',
-  Stepback = 'stepback',
-  ShakeAndRaise = 'shakeAndRaise',
-  OverScreen = 'overScreen',
-  DrivingFloater = 'drivingFloater',
-  CutFloater = 'cutFloater',
-  PostLeft = 'postLeft',
-  PostRight = 'postRight',
-  DrivingLayup = 'drivingLayup',
-  CutLayup = 'cutLayup',
-  StandstillLayup = 'standstillLayup',
-  Lob = 'lob',
-  Tip = 'tip'
+  Heave = "heave",
+  CatchAndShoot = "catchAndShoot",
+  CatchAndShootRelocating = "catchAndShootRelocating",
+  CatchAndShootOnMoveLeft = "catchAndShootOnMoveLeft",
+  CatchAndShootOnMoveRight = "catchAndShootOnMoveRight",
+  PullupJumper = "pullupJumper",
+  Stepback = "stepback",
+  ShakeAndRaise = "shakeAndRaise",
+  OverScreen = "overScreen",
+  DrivingFloater = "drivingFloater",
+  CutFloater = "cutFloater",
+  PostLeft = "postLeft",
+  PostRight = "postRight",
+  DrivingLayup = "drivingLayup",
+  CutLayup = "cutLayup",
+  StandstillLayup = "standstillLayup",
+  Lob = "lob",
+  Tip = "tip",
 }
 
 export enum ContestLevel {
-  Uncontested = 'uncontested',
-  LightlyContested = 'lightly_contested',
-  HeavilyContested = 'heavily_contested'
+  Uncontested = "uncontested",
+  LightlyContested = "lightly_contested",
+  HeavilyContested = "heavily_contested",
 }
 
 export type Shot = {
@@ -48,7 +48,7 @@ export type Shot = {
 
   /** Month shot was taken */
   month: number;
-  
+
   /** Day shot was taken */
   day: number;
 
@@ -66,7 +66,7 @@ export type Shot = {
 
   /** x coordinate of shooter when shot was released */
   x: number;
-  
+
   /** y coordinate of shooter when shot was released */
   y: number;
 
@@ -75,7 +75,7 @@ export type Shot = {
 
   /** x coordinate of the passer when the ball was passed to the shooter */
   passer_x: number | null;
-  
+
   /** y coordinate of the passer when the ball was passed to the shooter */
   passer_y: number | null;
 

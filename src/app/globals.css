@@ -24,3 +24,40 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.body-bg {
+  background-color: #f7fafc;
+}
+
+.bg {
+  fill: #f7fafc;
+}
+.court-line {
+  stroke: #1a202c;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  opacity: 0.8;
+}
+.court-line-thicker {
+  stroke: #1a202c;
+  stroke-width: 3;
+  fill: none;
+  opacity: 0.9;
+}
+.title-main {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  fill: #1a202c;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-anchor: middle;
+}
+.title-sub {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  fill: #718096;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-anchor: middle;
+}
