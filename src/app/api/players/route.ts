@@ -10,7 +10,7 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 });
 
   const unique = Array.from(
-    new Map(data.map((p) => [p.shooter_id, p])).values(),
+    new Map(data.map((p) => [p.shooter_id, p])).values()
   );
 
   return NextResponse.json(unique);
