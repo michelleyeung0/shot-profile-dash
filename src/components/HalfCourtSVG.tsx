@@ -1,8 +1,9 @@
 type HalfCourtSVGProps = {
   svgRef?: React.RefObject<SVGSVGElement | null>;
+  label?: string;
 };
 
-export default function HalfCourtSVG({ svgRef }: HalfCourtSVGProps) {
+export default function HalfCourtSVG({ svgRef, label = "SHOT MAP" }: HalfCourtSVGProps) {
   return (
     <svg
       ref={svgRef}
@@ -19,6 +20,7 @@ export default function HalfCourtSVG({ svgRef }: HalfCourtSVGProps) {
           .court-line { stroke: #1A202C; stroke-width: 2; fill: none; stroke-linecap: round; opacity: 0.8; }
           .court-line-thicker { stroke: #1A202C; stroke-width: 3; fill: none; opacity: 0.9; }
           .title-main { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 28px; fill: #1A202C; font-weight: 700; letter-spacing: 2px; text-anchor: middle; }
+          .legend-label { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 18px; fill: #4A5568; }
         `}</style>
       </defs>
 
@@ -27,7 +29,7 @@ export default function HalfCourtSVG({ svgRef }: HalfCourtSVGProps) {
 
       {/* Title */}
       <text x={400} y={35} className="title-main">
-        SHOT MAP
+        {label}
       </text>
 
       {/* Outer Boundary */}
@@ -62,6 +64,12 @@ export default function HalfCourtSVG({ svgRef }: HalfCourtSVGProps) {
 
       {/* Restricted Area - 4ft radius = 55px */}
       <path d="M 345,629 A 55,55 0 0,1 455,629" className="court-line" />
+
+      {/* Legend */}
+      <circle cx={320} cy={730} r={7} fill="rgba(59, 130, 246, 0.65)" />
+      <text x={334} y={735} className="legend-label">Made</text>
+      <circle cx={430} cy={730} r={7} fill="rgba(239, 68, 68, 0.6)" />
+      <text x={444} y={735} className="legend-label">Missed</text>
 
       {/* 3-Point Line */}
       {/* Corners: 3ft from sideline = 42px → x=92 and x=708 */}

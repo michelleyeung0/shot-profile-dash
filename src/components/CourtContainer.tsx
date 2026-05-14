@@ -7,9 +7,10 @@ import ShotCanvas from "./ShotCanvas";
 
 type CourtContainerProps = {
   shots: Shot[];
+  label?: string;
 };
 
-export default function CourtContainer({ shots }: CourtContainerProps) {
+export default function CourtContainer({ shots, label }: CourtContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [courtDimensions, setCourtDimensions] = useState({
@@ -66,7 +67,7 @@ export default function CourtContainer({ shots }: CourtContainerProps) {
       ref={containerRef}
       style={{ position: "relative", width: "100%", height: "100%" }}
     >
-      <HalfCourtSVG svgRef={svgRef} />
+      <HalfCourtSVG svgRef={svgRef} label={label} />
       <ShotCanvas shots={shots} courtDimensions={courtDimensions} />
     </div>
   );

@@ -36,7 +36,10 @@ export default function ShotCanvas({
       const { x, y } = toSVGCoords(shot.x, shot.y);
       ctx.beginPath();
       ctx.arc(x * scaleX, y * scaleY, 3, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(51, 65, 85, 0.5)";
+      ctx.fillStyle = shot.outcome
+        ? "rgba(59, 130, 246, 0.65)" // made — blue
+        : "rgba(239, 68, 68, 0.6)"; // missed — red
+
       ctx.fill();
     });
   }, [shots, courtDimensions]);
