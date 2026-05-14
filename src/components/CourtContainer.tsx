@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, ReactElement } from "react";
 import { Shot, ShotType, ContestLevel } from "@/types/shot";
+import { TailSpin } from "react-loader-spinner";
 import HalfCourtSVG from "./HalfCourtSVG";
 import ShotCanvas from "./ShotCanvas";
 
@@ -25,6 +26,19 @@ const CONTEST_LABELS: Record<ContestLevel, string> = {
   [ContestLevel.LightlyContested]: "Lightly Contested",
   [ContestLevel.HeavilyContested]: "Heavily Contested",
 };
+
+function renderSpinner(): ReactElement {
+  return (
+    <TailSpin
+      height="80"
+      width="80"
+      color="#757b85"
+      ariaLabel="tail-spin-loading"
+      radius="1"
+      visible={true}
+    />
+  )
+}
 
 export default function CourtContainer({
   shots,
@@ -95,23 +109,34 @@ export default function CourtContainer({
     }
   }
 
+  const ready = shots.length > 0 && courtDimensions.width > 0;
+
   return (
     <div
       ref={containerRef}
       style={{ position: "relative", width: "100%", height: "100%" }}
     >
-      <HalfCourtSVG
-        svgRef={svgRef}
-        playerName={playerName}
-        sublabel={sublabel}
-      />
-      <ShotCanvas
-        shots={shots}
-        courtDimensions={courtDimensions}
-        showTooltips={showTooltips}
-        hoveredShot={activeHoveredShot}
-        onHover={handleHover}
-      />
+      {!ready && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          {renderSpinner()}
+        </div>
+      )}
+      {ready && (
+        <>
+          <HalfCourtSVG
+            svgRef={svgRef}
+            playerName={playerName}
+            sublabel={sublabel}
+          />
+          <ShotCanvas
+            shots={shots}
+            courtDimensions={courtDimensions}
+            showTooltips={showTooltips}
+            hoveredShot={activeHoveredShot}
+            onHover={handleHover}
+          />
+        </>
+      )}
       {activeHoveredShot && (
         <div
           style={{ left: tooltipPos.x + 12, top: tooltipPos.y - 12 }}
