@@ -108,4 +108,7 @@ export type Shot = {
 
   /** The number of dribbles the shooter took before shooting */
   dribbles_before: number;
+
+  /** True if the shot was taken from beyond the 3-point line */
+  is_three_pointer: boolean | null;
 };

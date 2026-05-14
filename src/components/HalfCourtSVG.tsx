@@ -1,11 +1,13 @@
 type HalfCourtSVGProps = {
   svgRef?: React.RefObject<SVGSVGElement | null>;
-  label?: string;
+  playerName?: string;
+  sublabel?: string;
 };
 
 export default function HalfCourtSVG({
   svgRef,
-  label = "SHOT MAP",
+  playerName = "PLAYER",
+  sublabel,
 }: HalfCourtSVGProps) {
   return (
     <svg
@@ -24,6 +26,7 @@ export default function HalfCourtSVG({
           .court-line-thicker { stroke: #1A202C; stroke-width: 3; fill: none; opacity: 0.9; }
           .title-main { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 28px; fill: #1A202C; font-weight: 700; letter-spacing: 2px; text-anchor: middle; }
           .legend-label { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 18px; fill: #4A5568; }
+          .sublabel { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; fill: #718096; text-anchor: middle; }
         `}</style>
       </defs>
 
@@ -32,8 +35,15 @@ export default function HalfCourtSVG({
 
       {/* Title */}
       <text x={400} y={35} className="title-main">
-        {label}
+        {playerName}
       </text>
+
+      {/* Stats */}
+      {sublabel && (
+        <text x={400} y={60} className="sublabel">
+          {sublabel}
+        </text>
+      )}
 
       {/* Outer Boundary */}
       <path

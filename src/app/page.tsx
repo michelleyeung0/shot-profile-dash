@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
 
 export default function Home() {
   return (

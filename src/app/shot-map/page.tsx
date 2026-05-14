@@ -53,10 +53,26 @@ export default function ShotMapPage() {
     });
   }, [shots, filters]);
 
+  // Calculate shot stats for subheading
+  // * including calculations here instead of CourtContainer.tsx since filteredShots is already calculated here
+  const shotStats = useMemo(() => {
+    if (filteredShots.length === 0) return "";
+
+    const fgm = filteredShots.filter((s) => s.outcome).length;
+    const fga = filteredShots.length;
+    const threesMade = filteredShots.filter(
+      (s) => s.outcome && s.is_three_pointer
+    ).length;
+    const fgPercent = ((fgm / fga) * 100).toFixed(1);
+    const eFGPercent = (((fgm + 0.5 * threesMade) / fga) * 100).toFixed(1);
+
+    return `${fgm} FGM · ${fga} FGA · ${fgPercent}% FG · ${eFGPercent}% eFG`;
+  }, [filteredShots]);
+
   return (
     <main className="flex flex-col h-[calc(100vh-3.5rem)] p-6">
       <div className="flex items-baseline gap-3 mb-4">
-        <h1 className="text-2xl font-bold">Shot Map & Efficiency</h1>
+        <h1 className="text-2xl font-bold">Player Shot Map</h1>
         {shots.length > 0 && (
           <span className="text-sm text-gray-400">
             {filteredShots.length.toLocaleString()} of{" "}
@@ -74,10 +90,12 @@ export default function ShotMapPage() {
           <CourtContainer
             shots={filteredShots}
             showTooltips={filters.player !== null}
-            label={
-              filteredShots.length > 0
-                ? `${((filteredShots.filter((s) => s.outcome).length / filteredShots.length) * 100).toFixed(1)}% FG`
-                : ""
+            sublabel={shotStats}
+            playerName={
+              filters.player !== null
+                ? players.find((p) => p.shooter_id === filters.player)
+                    ?.shooter_name
+                : "ALL PLAYERS"
             }
           />
         </div>

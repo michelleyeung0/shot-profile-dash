@@ -7,7 +7,8 @@ import ShotCanvas from "./ShotCanvas";
 
 type CourtContainerProps = {
   shots: Shot[];
-  label?: string;
+  playerName?: string;
+  sublabel?: string;
   showTooltips?: boolean;
 };
 
@@ -27,7 +28,8 @@ const CONTEST_LABELS: Record<ContestLevel, string> = {
 
 export default function CourtContainer({
   shots,
-  label,
+  playerName,
+  sublabel,
   showTooltips,
 }: CourtContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -98,7 +100,11 @@ export default function CourtContainer({
       ref={containerRef}
       style={{ position: "relative", width: "100%", height: "100%" }}
     >
-      <HalfCourtSVG svgRef={svgRef} label={label} />
+      <HalfCourtSVG
+        svgRef={svgRef}
+        playerName={playerName}
+        sublabel={sublabel}
+      />
       <ShotCanvas
         shots={shots}
         courtDimensions={courtDimensions}
