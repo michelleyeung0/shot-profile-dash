@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { Analytics } from "@vercel/analytics/next";
 
+const card =
+  "group block p-6 rounded-xl border border-gray-200 bg-white hover:bg-gray-100 hover:border-gray-400 hover:shadow-sm transition-all";
+const cardTitle = "text-xl font-semibold text-gray-900 mb-2";
+const cardBody = "text-gray-500 text-sm";
+
 export default function Home() {
   return (
     <>
@@ -15,31 +20,21 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Link
-            href="/shot-map"
-            className="group block p-6 rounded-xl border border-gray-200 bg-white hover:bg-gray-100 hover:border-gray-400 hover:shadow-sm transition-all"
-          >
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              Shot Map
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Visualize shot locations on a court diagram. Filter by player,
-              shot type, outcome, contest level, and assisted status.
-            </p>
-          </Link>
-          <Link
-            href="/tendencies"
-            className="group block p-6 rounded-xl border border-gray-200 bg-white hover:bg-gray-100 hover:border-gray-400 hover:shadow-sm transition-all"
-          >
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              Player Tendencies
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Compare a player&apos;s shot profile against their teammates — rim
-              rate, mid-range rate, three-point rate, eFG%, and creation
-              metrics.
-            </p>
-          </Link>
+            <Link href="/shot-map" className={card}>
+              <h2 className={cardTitle}>Shot Map</h2>
+              <p className={cardBody}>
+                Visualize shot locations on a court diagram. Filter by player,
+                shot type, outcome, contest level, and assisted status.
+              </p>
+            </Link>
+            <Link href="/tendencies" className={card}>
+              <h2 className={cardTitle}>Player Tendencies</h2>
+              <p className={cardBody}>
+                Compare a player&apos;s shot profile against their teammates —
+                rim rate, mid-range rate, three-point rate, eFG%, and creation
+                metrics.
+              </p>
+            </Link>
           </div>
         </div>
       </main>

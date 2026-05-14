@@ -5,6 +5,12 @@ import { Shot } from "@/types/shot";
 import { FilterState, DEFAULT_FILTERS } from "@/types/filters";
 import CourtContainer from "@/components/CourtContainer";
 import FilterPanel from "@/components/FilterPanel";
+import {
+  dashboardPage,
+  dashboardHeader,
+  dashboardTitle,
+  dashboardContent,
+} from "@/lib/styles";
 
 export default function ShotMapPage() {
   const [shots, setShots] = useState<Shot[]>([]);
@@ -53,7 +59,6 @@ export default function ShotMapPage() {
     });
   }, [shots, filters]);
 
-  // Calculate shot stats for subheading
   // * including calculations here instead of CourtContainer.tsx since filteredShots is already calculated here
   const shotStats = useMemo(() => {
     if (filteredShots.length === 0) return "";
@@ -70,9 +75,9 @@ export default function ShotMapPage() {
   }, [filteredShots]);
 
   return (
-    <main className="flex flex-col h-[calc(100vh-3.5rem)] p-6">
-      <div className="flex items-baseline gap-3 mb-4">
-        <h1 className="text-2xl font-bold">Player Shot Map</h1>
+    <main className={dashboardPage}>
+      <div className={dashboardHeader}>
+        <h1 className={dashboardTitle}>Player Shot Map</h1>
         {shots.length > 0 && (
           <span className="text-sm text-gray-400">
             {filteredShots.length.toLocaleString()} of{" "}
@@ -80,7 +85,7 @@ export default function ShotMapPage() {
           </span>
         )}
       </div>
-      <div className="flex flex-1 min-h-0 gap-6">
+      <div className={dashboardContent}>
         <FilterPanel
           filters={filters}
           onChange={setFilters}

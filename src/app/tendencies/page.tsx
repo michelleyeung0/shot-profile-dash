@@ -3,8 +3,20 @@
 import { useEffect, useState } from "react";
 import { ShotMetrics } from "@/lib/shotMetrics";
 import ProfileChart from "@/components/TendenciesChart";
+import {
+  dashboardPage,
+  dashboardHeader,
+  dashboardTitle,
+  dashboardContent,
+  selectInput,
+} from "@/lib/styles";
 
 type Player = { shooter_id: string; shooter_name: string };
+
+const sidebar =
+  "w-52 flex-shrink-0 self-start flex flex-col gap-3 text-sm bg-gray-200 text-gray-900 rounded-lg p-4";
+const overlay =
+  "absolute inset-0 flex items-center justify-center text-gray-400 text-sm";
 
 export default function TendenciesPage() {
   const [players, setPlayers] = useState<Player[]>([]);
@@ -56,17 +68,17 @@ export default function TendenciesPage() {
   )?.shooter_name;
 
   return (
-    <main className="flex flex-col h-[calc(100vh-3.5rem)] p-6">
-      <div className="flex items-baseline gap-3 mb-4">
-        <h1 className="text-2xl font-bold">Player Tendencies</h1>
+    <main className={dashboardPage}>
+      <div className={dashboardHeader}>
+        <h1 className={dashboardTitle}>Player Tendencies</h1>
       </div>
-      <div className="flex flex-1 min-h-0 gap-6">
-        <div className="w-52 flex-shrink-0 self-start flex flex-col gap-3 text-sm bg-gray-200 text-gray-900 rounded-lg p-4">
+      <div className={dashboardContent}>
+        <div className={sidebar}>
           <span className="font-semibold text-base">Player</span>
           <select
             value={selectedPlayer ?? ""}
             onChange={(e) => setSelectedPlayer(e.target.value || null)}
-            className="w-full px-2 py-1.5 bg-white border border-gray-300 rounded text-xs text-gray-800 focus:outline-none focus:border-gray-500"
+            className={selectInput}
           >
             <option value="">Select a player</option>
             {players.map((p) => (
@@ -78,15 +90,11 @@ export default function TendenciesPage() {
         </div>
         <div className="flex-1 min-h-0 relative">
           {!selectedPlayer && (
-            <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">
+            <div className={overlay}>
               Select a player to view their shot profile
             </div>
           )}
-          {loading && (
-            <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">
-              Loading...
-            </div>
-          )}
+          {loading && <div className={overlay}>Loading...</div>}
           {!loading && metrics && selectedPlayerName && (
             <div className="absolute inset-0">
               <ProfileChart
