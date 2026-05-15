@@ -3,6 +3,7 @@
 import { ShotType, ContestLevel } from "@/types/shot";
 import { FilterState, DEFAULT_FILTERS } from "@/types/filters";
 import { filterPanel, selectInput } from "@/lib/styles";
+import { SHOT_TYPE_LABELS, CONTEST_LABELS } from "@/lib/labels";
 
 type Player = { shooter_id: string; shooter_name: string };
 
@@ -10,20 +11,6 @@ type FilterPanelProps = {
   filters: FilterState;
   onChange: (filters: FilterState) => void;
   players: Player[];
-};
-
-const SHOT_TYPE_LABELS: Record<ShotType, string> = {
-  [ShotType.Jumper]: "Jumper",
-  [ShotType.Post]: "Post",
-  [ShotType.Floater]: "Floater",
-  [ShotType.Layup]: "Layup",
-  [ShotType.Heave]: "Heave"
-};
-
-const CONTEST_LABELS: Record<ContestLevel, string> = {
-  [ContestLevel.Uncontested]: "Uncontested",
-  [ContestLevel.LightlyContested]: "Lightly contested",
-  [ContestLevel.HeavilyContested]: "Heavily contested"
 };
 
 const sectionHeader =

@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, useEffect, useState, ReactElement } from "react";
-import { Shot, ShotType, ContestLevel } from "@/types/shot";
+import { Shot } from "@/types/shot";
 import { TailSpin } from "react-loader-spinner";
+import { SHOT_TYPE_LABELS, CONTEST_LABELS } from "@/lib/labels";
 import HalfCourtSVG from "./HalfCourtSVG";
 import ShotCanvas from "./ShotCanvas";
 
@@ -11,20 +12,6 @@ type CourtContainerProps = {
   playerName?: string;
   sublabel?: string;
   showTooltips?: boolean;
-};
-
-const SHOT_TYPE_LABELS: Record<ShotType, string> = {
-  [ShotType.Jumper]: "Jumper",
-  [ShotType.Post]: "Post",
-  [ShotType.Floater]: "Floater",
-  [ShotType.Layup]: "Layup",
-  [ShotType.Heave]: "Heave"
-};
-
-const CONTEST_LABELS: Record<ContestLevel, string> = {
-  [ContestLevel.Uncontested]: "Uncontested",
-  [ContestLevel.LightlyContested]: "Lightly Contested",
-  [ContestLevel.HeavilyContested]: "Heavily Contested"
 };
 
 function renderSpinner(): ReactElement {
