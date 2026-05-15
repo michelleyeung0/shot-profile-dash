@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shot Profile Dashboard
 
-## Getting Started
+https://shot-profile-dash.vercel.app/
 
-First, run the development server:
+An interactive shot analysis dashboard for the [REDACTED TEAM]'s 2024-2025 regular season. Explore shot locations on a court diagram and compare player shot creation tendencies against their teammates.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **[Next.js 16](https://nextjs.org/)**
+- **[TypeScript](https://www.typescriptlang.org/)**
+- **[Tailwind CSS v4](https://tailwindcss.com/)**
+- **[Supabase](https://supabase.com/)**
+- **[Recharts](https://recharts.org/)**
+- **[Vercel](https://vercel.com/)**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Next.js was the natural choice for this project due to its App Router, built-in API routes, and seamless Vercel deployment. Next.js API routes are fully managed by Vercel, so each `route.ts` file automatically spins up its own serverless function without the need to stand up a separate backend server. The best perk is that deployments are simple and practically one-click.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Supabase provides a Postgres database with an official JavaScript client library which means no raw SQL is needed, reducing security risk.
 
-## Learn More
+## Dashboard Features
 
-To learn more about Next.js, take a look at the following resources:
+The web application contains two dashboards, each built around a different way of analyzing shot data.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Shot Map Dashboard**  
+The shot map dashboard plots each shot attempt on a half-court diagram, color-coded by outcome. The court can be filtered by player, shot type, outcome, contest level, and assisted status, letting users identify where on the floor a player shoots from and under what conditions.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+At the team level view, the dashboard reveals broader team shooting trends such as shot distribution across zones or clusters of missed attempts from distance.
 
-## Deploy on Vercel
+When scoped to a single player, hovering over any shot plot reveals a tooltip showing the shot type, contest level, assisted/unassisted, and how the shot was created - either catch & shoot or the number of dribbles taken before the attempt. This allows for closer inspection of individual shots when narrowing down filters.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Player Tendencies Dashboard**  
+The player tendencies dashboard displays a horizontal bar chart that compares a selected player's shot creation profile against the rest of the team (ROT) across four categories: spot-up, self-created, cut/off-ball, and post-up.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The dashboard isolates individual tendencies from the ROT baseline. Metrics are expressed as a percentage of total shot attempts rather than raw counts, which reduces playing time bias (i.e. it stops a high-volume player from looking like a more aggressive shot creator just because they have higher raw totals).
+
+## Assumptions Made
+
+- Assumed heaves are outlier data since they're usually buzzer beaters. Heaves are excluded from the shot map partially due to it being noise and partially because I decided to implement a half-court display.
+
+## Tradeoffs
+
+- Data aggregations are currently handled in application code instead of the database queries. This was done because I knew the concrete constraints of the dataset (one regular season's worth of data for only 12 players) and the concrete parameters of this project. It's also easier to refactor in the case I decided to take the dashboard in a different direction (which I did at the half-way point). The dataset is small enough that computing metrics in the application code is fast and simpler than writing the equivalent database queries.
+- The court diagram is rendered as a scalable vector graphic (SVG) with court lines drawn to scale using real NBA court dimensions, which ensures shot coordinates map accurately onto the diagram. The tradeoff is that an SVG court is less aesthetics focused than an illustrated graphic. A specially designed court graphic would look more polished, but would require extra time to create and extra calibration effort to align the coordinate system with the visual.
+- The entire web application has a very minimal/utilitarian design; function was prioritized over aesthetics due to the nature of the assessment.
+
+## Future Improvements
+
+- Implement database schema as code to eliminate manual schema creation/updates and create version control.
+- Add API caching layer to reduce database queries.
+- Add tests because tests are good.
+
+## How I Would Extend if Dataset Was Larger
+
+- My top priority would be to refactor the data aggregations so that they are done via the database query rather than in the application code. I would also move filtering to the database by refactoring the API routes to accept query parameters so they can essentially be translated into SQL `WHERE` clauses rather than fetching the full dataset and filtering on the client.
+- Implement a caching layer; shot data for completed games never change so most, if not all, API responses can be cached. Filtering would be unsustainable without caching once the data aggregations are moved from the client to the database, since each filter change would trigger a new database query.
+- Player selection in both dashboards would need to be refactored from a select field to a paginated list with a search field. This would improve both UX and database efficiency.
