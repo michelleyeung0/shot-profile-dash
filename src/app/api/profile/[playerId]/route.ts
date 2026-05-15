@@ -18,6 +18,14 @@ export async function GET(
     supabase.from("shots").select(columns).neq("shooter_id", playerId)
   ]);
 
+  if (playerRes.error)
+    return NextResponse.json(
+      { error: playerRes.error.message },
+      { status: 500 }
+    );
+  if (rotRes.error)
+    return NextResponse.json({ error: rotRes.error.message }, { status: 500 });
+
   const player = computeMetrics(playerRes.data ?? []);
   const rot = computeMetrics(rotRes.data ?? []);
 

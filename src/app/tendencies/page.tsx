@@ -25,18 +25,22 @@ export default function TendenciesPage() {
     Map<string, { player: ShotMetrics; rot: ShotMetrics }>
   >(new Map());
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchPlayers() {
       try {
         const response = await fetch("/api/players");
+        if (!response.ok) throw new Error("Failed to load players");
         const data = await response.json();
         const sortedPlayers = data.sort((a: Player, b: Player) =>
           a.shooter_name.localeCompare(b.shooter_name)
         );
         setPlayers(sortedPlayers);
       } catch (error) {
-        console.error("Error fetching players:", error);
+        setError(
+          error instanceof Error ? error.message : "Something went wrong"
+        );
       }
     }
     fetchPlayers();
@@ -46,12 +50,16 @@ export default function TendenciesPage() {
     if (!selectedPlayer) return;
     async function fetchMetrics() {
       setLoading(true);
+      setError(null);
       try {
         const response = await fetch(`/api/profile/${selectedPlayer}`);
+        if (!response.ok) throw new Error("Failed to load player data");
         const data = await response.json();
         setMetricsMap((prev) => new Map(prev).set(selectedPlayer!, data));
       } catch (error) {
-        console.error("Error fetching metrics:", error);
+        setError(
+          error instanceof Error ? error.message : "Something went wrong"
+        );
       } finally {
         setLoading(false);
       }
@@ -95,7 +103,10 @@ export default function TendenciesPage() {
             </div>
           )}
           {loading && <div className={overlay}>Loading...</div>}
-          {!loading && metrics && selectedPlayerName && (
+          {!loading && error && (
+            <div className={overlay + " text-red-400"}>{error}</div>
+          )}
+          {!loading && !error && metrics && selectedPlayerName && (
             <div className="absolute inset-0">
               <ProfileChart
                 playerMetrics={metrics.player}

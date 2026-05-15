@@ -15,15 +15,19 @@ import {
 export default function ShotMapPage() {
   const [shots, setShots] = useState<Shot[]>([]);
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchShots() {
       try {
         const response = await fetch("/api/shots");
+        if (!response.ok) throw new Error("Failed to load shot data");
         const data = await response.json();
         setShots(data);
       } catch (error) {
-        console.error("Error fetching shots:", error);
+        setError(
+          error instanceof Error ? error.message : "Something went wrong"
+        );
       }
     }
     fetchShots();
@@ -73,6 +77,15 @@ export default function ShotMapPage() {
 
     return `${fgm} FGM · ${fga} FGA · ${fgPercent}% FG · ${eFGPercent}% eFG`;
   }, [filteredShots]);
+
+  if (error)
+    return (
+      <main className={dashboardPage}>
+        <div className="flex-1 flex items-center justify-center">
+          <p className="text-sm text-red-500">{error}</p>
+        </div>
+      </main>
+    );
 
   return (
     <main className={dashboardPage}>
