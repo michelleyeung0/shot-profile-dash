@@ -35,6 +35,10 @@ The dashboard isolates individual tendencies from the ROT baseline. Metrics are 
 
 ## Assumptions Made
 
+- Assumed that the best way to compute ROT baselines is pooling all teammate shot attempts and calculating rates from that combined pool:  
+`rot_spot_up_rate = rot_spot_up_rate = teammate spot-up attempts / teammate total attempts` where teammate metrics exclude the selected player's metrics.  
+This means the baselines better reflect how the team collectively distributes its shots but high-volume players influence the baseline more than low-volume players.  
+The alternative, averaging each ROT teammate's individual rates (`rot_spot_up_rate = ((player1 spot-up% + player2 spot-up% + ... + playerN-1 spot-up%)/N-1)`), would weight all teammates equally but is more susceptible to small-sample distortion from players with limited shot attempts. 
 - Assumed heaves are outlier data since they're usually buzzer beaters. Heaves are excluded from the shot map partially due to it being noise and partially because I decided to implement a half-court display.
 
 ## Tradeoffs
