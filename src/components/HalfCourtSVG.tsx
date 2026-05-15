@@ -1,3 +1,26 @@
+import {
+  SVG_WIDTH,
+  SVG_HEIGHT,
+  COURT_LEFT,
+  COURT_RIGHT,
+  COURT_TOP,
+  COURT_BOTTOM,
+  COURT_CENTER_X,
+  KEY_X,
+  KEY_Y,
+  KEY_WIDTH,
+  KEY_HEIGHT,
+  FT_CIRCLE_RADIUS,
+  BACKBOARD_Y,
+  BACKBOARD_HALF_WIDTH,
+  RIM_Y,
+  RIM_RADIUS,
+  RESTRICTED_RADIUS,
+  THREE_CORNER_X,
+  THREE_CORNER_Y,
+  THREE_ARC_RADIUS
+} from "@/lib/courtUtils";
+
 type HalfCourtSVGProps = {
   svgRef?: React.RefObject<SVGSVGElement | null>;
   playerName?: string;
@@ -13,7 +36,7 @@ export default function HalfCourtSVG({
     <svg
       ref={svgRef}
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 800 752"
+      viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
       width="100%"
       height="100%"
       preserveAspectRatio="xMidYMid meet"
@@ -31,52 +54,70 @@ export default function HalfCourtSVG({
       </defs>
 
       {/* Background */}
-      <rect className="bg" width={800} height={752} />
+      <rect className="bg" width={SVG_WIDTH} height={SVG_HEIGHT} />
 
       {/* Title */}
-      <text x={400} y={35} className="title-main">
+      <text x={COURT_CENTER_X} y={35} className="title-main">
         {playerName}
       </text>
 
       {/* Stats */}
       {sublabel && (
-        <text x={400} y={60} className="sublabel">
+        <text x={COURT_CENTER_X} y={60} className="sublabel">
           {sublabel}
         </text>
       )}
 
       {/* Outer Boundary */}
       <path
-        d="M 50,50 L 50,702 L 750,702 L 750,50"
+        d={`M ${COURT_LEFT},${COURT_TOP} L ${COURT_LEFT},${COURT_BOTTOM} L ${COURT_RIGHT},${COURT_BOTTOM} L ${COURT_RIGHT},${COURT_TOP}`}
         className="court-line-thicker"
       />
 
-      {/* Half Court Line */}
-      {/* <line x1={50} y1={50} x2={750} y2={50} className="court-line-thicker" /> */}
+      {/* Key */}
+      <rect
+        x={KEY_X}
+        y={KEY_Y}
+        width={KEY_WIDTH}
+        height={KEY_HEIGHT}
+        className="court-line"
+      />
 
-      {/* Key - 16ft wide = 224px, 19ft long = 263px */}
-      {/* Center x=400, so x=288 to x=512 */}
-      <rect x={288} y={439} width={224} height={263} className="court-line" />
-
-      {/* Free Throw Circle - radius 6ft = 83px, centered at y=439 */}
-      {/* Solid top */}
-      <path d="M 317,439 A 83,83 0 0,1 483,439" className="court-line" />
-
-      {/* Dashed bottom */}
+      {/* Free Throw Circle — solid top */}
       <path
-        d="M 317,439 A 83,83 0 0,0 483,439"
+        d={`M ${COURT_CENTER_X - FT_CIRCLE_RADIUS},${KEY_Y} A ${FT_CIRCLE_RADIUS},${FT_CIRCLE_RADIUS} 0 0,1 ${COURT_CENTER_X + FT_CIRCLE_RADIUS},${KEY_Y}`}
+        className="court-line"
+      />
+
+      {/* Free Throw Circle — dashed bottom */}
+      <path
+        d={`M ${COURT_CENTER_X - FT_CIRCLE_RADIUS},${KEY_Y} A ${FT_CIRCLE_RADIUS},${FT_CIRCLE_RADIUS} 0 0,0 ${COURT_CENTER_X + FT_CIRCLE_RADIUS},${KEY_Y}`}
         className="court-line"
         strokeDasharray="6,6"
       />
 
-      {/* Backboard - 6ft wide = 84px, 4ft from baseline = 55px → y=647 */}
-      <line x1={358} y1={647} x2={442} y2={647} className="court-line" />
+      {/* Backboard */}
+      <line
+        x1={COURT_CENTER_X - BACKBOARD_HALF_WIDTH}
+        y1={BACKBOARD_Y}
+        x2={COURT_CENTER_X + BACKBOARD_HALF_WIDTH}
+        y2={BACKBOARD_Y}
+        className="court-line"
+      />
 
-      {/* Rim - 5.25ft from baseline = 73px → cy=629, radius 9in = ~11px */}
-      <circle cx={400} cy={629} r={11} className="court-line" />
+      {/* Rim */}
+      <circle
+        cx={COURT_CENTER_X}
+        cy={RIM_Y}
+        r={RIM_RADIUS}
+        className="court-line"
+      />
 
-      {/* Restricted Area - 4ft radius = 55px */}
-      <path d="M 345,629 A 55,55 0 0,1 455,629" className="court-line" />
+      {/* Restricted Area */}
+      <path
+        d={`M ${COURT_CENTER_X - RESTRICTED_RADIUS},${RIM_Y} A ${RESTRICTED_RADIUS},${RESTRICTED_RADIUS} 0 0,1 ${COURT_CENTER_X + RESTRICTED_RADIUS},${RIM_Y}`}
+        className="court-line"
+      />
 
       {/* Legend */}
       <circle cx={320} cy={730} r={7} fill="rgba(59, 130, 246, 0.65)" />
@@ -89,11 +130,8 @@ export default function HalfCourtSVG({
       </text>
 
       {/* 3-Point Line */}
-      {/* Corners: 3ft from sideline = 42px → x=92 and x=708 */}
-      {/* Corner height: 14ft from baseline = 194px → y=508 */}
-      {/* Arc radius: 23.75ft = 332px, centered on rim */}
       <path
-        d="M 92,702 L 92,508 A 332,332 0 0,1 708,508 L 708,702"
+        d={`M ${THREE_CORNER_X},${COURT_BOTTOM} L ${THREE_CORNER_X},${THREE_CORNER_Y} A ${THREE_ARC_RADIUS},${THREE_ARC_RADIUS} 0 0,1 ${SVG_WIDTH - THREE_CORNER_X},${THREE_CORNER_Y} L ${SVG_WIDTH - THREE_CORNER_X},${COURT_BOTTOM}`}
         className="court-line-thicker"
       />
     </svg>
