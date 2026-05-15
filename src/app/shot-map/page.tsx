@@ -9,7 +9,7 @@ import {
   dashboardPage,
   dashboardHeader,
   dashboardTitle,
-  dashboardContent,
+  dashboardContent
 } from "@/lib/styles";
 
 export default function ShotMapPage() {

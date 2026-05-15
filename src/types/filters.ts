@@ -13,5 +13,5 @@ export const DEFAULT_FILTERS: FilterState = {
   shotTypes: [],
   outcome: "all",
   contestLevels: [],
-  assisted: "all",
+  assisted: "all"
 };

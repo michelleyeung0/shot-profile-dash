@@ -15,7 +15,7 @@ export async function GET(
     supabase.from("shots").select(columns).eq("shooter_id", playerId),
 
     // Get all of the team's shots, excluding the specified player's shots
-    supabase.from("shots").select(columns).neq("shooter_id", playerId),
+    supabase.from("shots").select(columns).neq("shooter_id", playerId)
   ]);
 
   const player = computeMetrics(playerRes.data ?? []);

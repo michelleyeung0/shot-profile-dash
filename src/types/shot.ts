@@ -3,7 +3,7 @@ export enum ShotType {
   Jumper = "jumper",
   Post = "post",
   Floater = "floater",
-  Layup = "layup",
+  Layup = "layup"
 }
 
 export enum ComplexShotType {
@@ -24,13 +24,13 @@ export enum ComplexShotType {
   CutLayup = "cutLayup",
   StandstillLayup = "standstillLayup",
   Lob = "lob",
-  Tip = "tip",
+  Tip = "tip"
 }
 
 export enum ContestLevel {
   Uncontested = "uncontested",
   LightlyContested = "lightly_contested",
-  HeavilyContested = "heavily_contested",
+  HeavilyContested = "heavily_contested"
 }
 
 export type Shot = {

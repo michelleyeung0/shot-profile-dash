@@ -7,7 +7,7 @@ type HalfCourtSVGProps = {
 export default function HalfCourtSVG({
   svgRef,
   playerName = "PLAYER",
-  sublabel,
+  sublabel
 }: HalfCourtSVGProps) {
   return (
     <svg

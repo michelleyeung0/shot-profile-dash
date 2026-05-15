@@ -18,13 +18,13 @@ const SHOT_TYPE_LABELS: Record<ShotType, string> = {
   [ShotType.Post]: "Post",
   [ShotType.Floater]: "Floater",
   [ShotType.Layup]: "Layup",
-  [ShotType.Heave]: "Heave",
+  [ShotType.Heave]: "Heave"
 };
 
 const CONTEST_LABELS: Record<ContestLevel, string> = {
   [ContestLevel.Uncontested]: "Uncontested",
   [ContestLevel.LightlyContested]: "Lightly Contested",
-  [ContestLevel.HeavilyContested]: "Heavily Contested",
+  [ContestLevel.HeavilyContested]: "Heavily Contested"
 };
 
 function renderSpinner(): ReactElement {
@@ -44,7 +44,7 @@ export default function CourtContainer({
   shots,
   playerName,
   sublabel,
-  showTooltips,
+  showTooltips
 }: CourtContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -52,7 +52,7 @@ export default function CourtContainer({
     width: 0,
     height: 0,
     left: 0,
-    top: 0,
+    top: 0
   });
   const [hoveredShot, setHoveredShot] = useState<Shot | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
@@ -85,7 +85,7 @@ export default function CourtContainer({
         width: courtWidth,
         height: courtHeight,
         left: courtLeft,
-        top: courtTop,
+        top: courtTop
       });
     }
 
@@ -104,7 +104,7 @@ export default function CourtContainer({
     if (shot) {
       setTooltipPos({
         x: courtDimensions.left + canvasX,
-        y: courtDimensions.top + canvasY,
+        y: courtDimensions.top + canvasY
       });
     }
   }

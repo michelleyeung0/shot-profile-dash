@@ -8,7 +8,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer,
+  ResponsiveContainer
 } from "recharts";
 import { ShotMetrics } from "@/lib/shotMetrics";
 
@@ -29,13 +29,13 @@ const CHART_DATA = (p: ShotMetrics, r: ShotMetrics) => [
   { metric: "eFG%", player: p.eFGPercent, rot: r.eFGPercent },
   // Creation
   { metric: "Assisted Rate", player: p.assistedRate, rot: r.assistedRate },
-  { metric: "C&S Rate", player: p.catchAndShootRate, rot: r.catchAndShootRate },
+  { metric: "C&S Rate", player: p.catchAndShootRate, rot: r.catchAndShootRate }
 ];
 
 export default function ProfileChart({
   playerMetrics,
   rotMetrics,
-  playerName,
+  playerName
 }: ProfileChartProps) {
   const data = CHART_DATA(playerMetrics, rotMetrics);
 

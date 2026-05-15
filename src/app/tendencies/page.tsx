@@ -8,7 +8,7 @@ import {
   dashboardHeader,
   dashboardTitle,
   dashboardContent,
-  selectInput,
+  selectInput
 } from "@/lib/styles";
 
 type Player = { shooter_id: string; shooter_name: string };
@@ -16,7 +16,7 @@ type Player = { shooter_id: string; shooter_name: string };
 const sidebar =
   "w-52 flex-shrink-0 self-start flex flex-col gap-3 text-sm bg-gray-200 text-gray-900 rounded-lg p-4";
 const overlay =
-  "absolute inset-0 flex items-center justify-center text-gray-400 text-sm";
+  "absolute inset-0 flex items-center justify-center text-gray-500 text-m";
 
 export default function TendenciesPage() {
   const [players, setPlayers] = useState<Player[]>([]);

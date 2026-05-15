@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const SVG_WIDTH = 800;
 const SVG_HEIGHT = 752;
 const MARGIN_X = 50;

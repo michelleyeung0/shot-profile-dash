@@ -31,6 +31,6 @@ export function computeMetrics(shots: ShotForMetrics[]): ShotMetrics | null {
     threePtRate: threeAttempts / fga,
     eFGPercent: (fgm + 0.5 * threeMade) / fga,
     assistedRate: fgm > 0 ? assistedMade / fgm : 0,
-    catchAndShootRate: catchAndShootAttempts / fga,
+    catchAndShootRate: catchAndShootAttempts / fga
   };
 }

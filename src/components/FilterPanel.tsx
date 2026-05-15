@@ -17,13 +17,13 @@ const SHOT_TYPE_LABELS: Record<ShotType, string> = {
   [ShotType.Post]: "Post",
   [ShotType.Floater]: "Floater",
   [ShotType.Layup]: "Layup",
-  [ShotType.Heave]: "Heave",
+  [ShotType.Heave]: "Heave"
 };
 
 const CONTEST_LABELS: Record<ContestLevel, string> = {
   [ContestLevel.Uncontested]: "Uncontested",
   [ContestLevel.LightlyContested]: "Lightly contested",
-  [ContestLevel.HeavilyContested]: "Heavily contested",
+  [ContestLevel.HeavilyContested]: "Heavily contested"
 };
 
 const sectionHeader =
@@ -44,7 +44,7 @@ function toggleBtnClass(active: boolean) {
 export default function FilterPanel({
   filters,
   onChange,
-  players,
+  players
 }: FilterPanelProps) {
   function toggleShotType(type: ShotType) {
     const next = filters.shotTypes.includes(type)
@@ -126,7 +126,7 @@ export default function FilterPanel({
             ShotType.Jumper,
             ShotType.Post,
             ShotType.Floater,
-            ShotType.Layup,
+            ShotType.Layup
           ].map((type) => (
             <label key={type} className={checkboxLabel}>
               <input
@@ -159,7 +159,7 @@ export default function FilterPanel({
           {[
             ContestLevel.Uncontested,
             ContestLevel.LightlyContested,
-            ContestLevel.HeavilyContested,
+            ContestLevel.HeavilyContested
           ].map((level) => (
             <label key={level} className={checkboxLabel}>
               <input

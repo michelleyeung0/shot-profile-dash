@@ -17,7 +17,7 @@ export default function ShotCanvas({
   courtDimensions,
   showTooltips,
   hoveredShot,
-  onHover,
+  onHover
 }: ShotCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -111,7 +111,7 @@ export default function ShotCanvas({
         width: courtDimensions.width,
         height: courtDimensions.height,
         pointerEvents: showTooltips ? "auto" : "none",
-        cursor: showTooltips ? "crosshair" : "default",
+        cursor: showTooltips ? "crosshair" : "default"
       }}
     />
   );
