@@ -28,11 +28,10 @@ export default function Home() {
               </p>
             </Link>
             <Link href="/tendencies" className={card}>
-              <h2 className={cardTitle}>Player Tendencies</h2>
+              <h2 className={cardTitle}>Player Shot Creation Tendencies</h2>
               <p className={cardBody}>
-                Compare a player&apos;s shot profile against their teammates —
-                rim rate, mid-range rate, three-point rate, eFG%, and creation
-                metrics.
+                Compare a player&apos;s shot creation profile against the rest of the team —
+                spot-up, self-created, cut/off-ball, and post-up.
               </p>
             </Link>
           </div>

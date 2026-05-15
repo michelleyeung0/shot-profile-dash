@@ -21,15 +21,11 @@ type ProfileChartProps = {
 const fmt = (v: number) => `${(v * 100).toFixed(1)}%`;
 
 const CHART_DATA = (p: ShotMetrics, r: ShotMetrics) => [
-  // Shot selection
-  { metric: "Rim Rate", player: p.rimRate, rot: r.rimRate },
-  { metric: "Mid-Range Rate", player: p.midRangeRate, rot: r.midRangeRate },
-  { metric: "3PT Rate", player: p.threePtRate, rot: r.threePtRate },
-  // Efficiency
-  { metric: "eFG%", player: p.eFGPercent, rot: r.eFGPercent },
-  // Creation
-  { metric: "Assisted Rate", player: p.assistedRate, rot: r.assistedRate },
-  { metric: "C&S Rate", player: p.catchAndShootRate, rot: r.catchAndShootRate }
+  { metric: "Spot-Up", player: p.spotUpRate, rot: r.spotUpRate },
+  { metric: "Self-Created", player: p.selfCreatedRate, rot: r.selfCreatedRate },
+  { metric: "Cut / Off-Ball", player: p.cutOffBallRate, rot: r.cutOffBallRate },
+  { metric: "Post-Up", player: p.postUpRate, rot: r.postUpRate },
+  { metric: "eFG%", player: p.eFGPercent, rot: r.eFGPercent }
 ];
 
 export default function ProfileChart({

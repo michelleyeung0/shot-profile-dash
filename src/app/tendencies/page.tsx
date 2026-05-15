@@ -91,7 +91,7 @@ export default function TendenciesPage() {
         <div className="flex-1 min-h-0 relative">
           {!selectedPlayer && (
             <div className={overlay}>
-              Select a player to view their shot profile
+              Select a player to view their shot creation profile
             </div>
           )}
           {loading && <div className={overlay}>Loading...</div>}

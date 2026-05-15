@@ -8,7 +8,7 @@ export async function GET(
 ) {
   const { playerId } = await params;
   const columns =
-    "outcome, is_three_pointer, is_rim, assisted, catch_and_shoot";
+    "outcome, is_three_pointer, complex_shot_type, assisted, ast_opp";
 
   const [playerRes, rotRes] = await Promise.all([
     // Get the specified player's shots
