@@ -9,6 +9,7 @@ import ShotCanvas from "./ShotCanvas";
 
 type CourtContainerProps = {
   shots: Shot[];
+  dataLoaded: boolean;
   playerName?: string;
   sublabel?: string;
   showTooltips?: boolean;
@@ -29,6 +30,7 @@ function renderSpinner(): ReactElement {
 
 export default function CourtContainer({
   shots,
+  dataLoaded,
   playerName,
   sublabel,
   showTooltips
@@ -96,7 +98,7 @@ export default function CourtContainer({
     }
   }
 
-  const ready = shots.length > 0 && courtDimensions.width > 0;
+  const ready = dataLoaded && courtDimensions.width > 0;
 
   return (
     <div
