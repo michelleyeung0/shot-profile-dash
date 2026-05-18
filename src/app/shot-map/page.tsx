@@ -19,7 +19,9 @@ import {
 
 export default function ShotMapPage() {
   const [shots, setShots] = useState<Shot[]>([]);
-  const [players, setPlayers] = useState<{ shooter_id: string; shooter_name: string }[]>([]);
+  const [players, setPlayers] = useState<
+    { shooter_id: string; shooter_name: string }[]
+  >([]);
   const [shotsLoaded, setShotsLoaded] = useState(false);
   const [shotMetrics, setShotMetrics] = useState<{
     fgm: number;

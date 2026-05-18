@@ -36,9 +36,9 @@ The dashboard isolates individual tendencies from the ROT baseline. Metrics are 
 ## Assumptions Made
 
 - Assumed that the best way to compute ROT baselines is pooling all teammate shot attempts and calculating rates from that combined pool:  
-`rot_spot_up_rate = rot_spot_up_rate = teammate spot-up attempts / teammate total attempts` where teammate metrics exclude the selected player's metrics.  
-This means the baselines better reflect how the team collectively distributes its shots but high-volume players influence the baseline more than low-volume players.  
-The alternative, averaging each ROT teammate's individual rates (`rot_spot_up_rate = ((player1 spot-up% + player2 spot-up% + ... + playerN-1 spot-up%)/N-1)`), would weight all teammates equally but is more susceptible to small-sample distortion from players with limited shot attempts. 
+  `rot_spot_up_rate = rot_spot_up_rate = teammate spot-up attempts / teammate total attempts` where teammate metrics exclude the selected player's metrics.  
+  This means the baselines better reflect how the team collectively distributes its shots but high-volume players influence the baseline more than low-volume players.  
+  The alternative, averaging each ROT teammate's individual rates (`rot_spot_up_rate = ((player1 spot-up% + player2 spot-up% + ... + playerN-1 spot-up%)/N-1)`), would weight all teammates equally but is more susceptible to small-sample distortion from players with limited shot attempts.
 - Assumed heaves are outlier data since they're usually buzzer beaters. Heaves are excluded from the shot map partially due to it being noise and partially because I decided to implement a half-court display.
 
 ## Tradeoffs
@@ -50,11 +50,10 @@ The alternative, averaging each ROT teammate's individual rates (`rot_spot_up_ra
 ## Future Improvements
 
 - Implement database schema as code to eliminate manual schema creation/updates and create version control.
-- Add API caching layer to reduce database queries.
+- Add API caching layer to reduce database queries, improve latency, and cost; shot data for completed games never change so most, if not all, API responses can be cached.
 - Add tests because tests are good.
 
 ## How I Would Extend if Dataset Was Larger
 
-- My top priority would be to refactor the data aggregations so that they are done via the database query rather than in the application code. I would also move filtering to the database by refactoring the API routes to accept query parameters so they can essentially be translated into SQL `WHERE` clauses rather than fetching the full dataset and filtering on the client.
-- Implement a caching layer; shot data for completed games never change so most, if not all, API responses can be cached. Filtering would be unsustainable without caching once the data aggregations are moved from the client to the database, since each filter change would trigger a new database query.
+- Prioritize implementing a caching layer. A larger dataset increases query cost; caching offloads repeated work from the database, lowering latency and cost.
 - Player selection in both dashboards would need to be refactored from a select field to a paginated list with a search field. This would improve both UX and database efficiency.

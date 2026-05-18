@@ -1,3 +1,5 @@
+"use client";
+
 import {
   SVG_WIDTH,
   SVG_HEIGHT,
