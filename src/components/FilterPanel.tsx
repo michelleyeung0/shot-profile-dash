@@ -39,6 +39,13 @@ export default function FilterPanel({
   players
 }: FilterPanelProps) {
   function toggleShotType(type: ShotType) {
+    // If 'All' is currently active (empty array), selecting a specific
+    // shot type should clear the 'All' state and select that type.
+    if (filters.shotTypes.length === 0) {
+      onChange({ ...filters, shotTypes: [type] });
+      return;
+    }
+
     const next = filters.shotTypes.includes(type)
       ? filters.shotTypes.filter((t) => t !== type)
       : [...filters.shotTypes, type];
@@ -46,10 +53,25 @@ export default function FilterPanel({
   }
 
   function toggleContestLevel(level: ContestLevel) {
+    // If 'All' is currently active (empty array), selecting a specific
+    // contest level should clear the 'All' state and select that level.
+    if (filters.contestLevels.length === 0) {
+      onChange({ ...filters, contestLevels: [level] });
+      return;
+    }
+
     const next = filters.contestLevels.includes(level)
       ? filters.contestLevels.filter((l) => l !== level)
       : [...filters.contestLevels, level];
     onChange({ ...filters, contestLevels: next });
+  }
+
+  function setShotTypesAll() {
+    onChange({ ...filters, shotTypes: [] });
+  }
+
+  function setContestLevelsAll() {
+    onChange({ ...filters, contestLevels: [] });
   }
 
   return (
@@ -114,6 +136,15 @@ export default function FilterPanel({
           )}
         </div>
         <div className={checkboxGroup}>
+          <label key="all-shottypes" className={checkboxLabel}>
+            <input
+              type="checkbox"
+              checked={filters.shotTypes.length === 0}
+              onChange={() => setShotTypesAll()}
+              className="accent-gray-800"
+            />
+            <span className="text-gray-800">All</span>
+          </label>
           {[
             ShotType.Jumper,
             ShotType.Post,
@@ -148,6 +179,15 @@ export default function FilterPanel({
           )}
         </div>
         <div className={checkboxGroup}>
+          <label key="all-contest" className={checkboxLabel}>
+            <input
+              type="checkbox"
+              checked={filters.contestLevels.length === 0}
+              onChange={() => setContestLevelsAll()}
+              className="accent-gray-800"
+            />
+            <span className="text-gray-800">All</span>
+          </label>
           {[
             ContestLevel.Uncontested,
             ContestLevel.LightlyContested,
