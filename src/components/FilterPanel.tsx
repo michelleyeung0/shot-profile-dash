@@ -1,7 +1,12 @@
 "use client";
 
 import { ShotType, ContestLevel } from "@/types/shot";
-import { FilterState, DEFAULT_FILTERS } from "@/types/filters";
+import {
+  FilterState,
+  DEFAULT_FILTERS,
+  Outcome,
+  AssistedFilter
+} from "@/types/filters";
 import { filterPanel, selectInput } from "@/lib/styles";
 import { SHOT_TYPE_LABELS, CONTEST_LABELS } from "@/lib/labels";
 
@@ -82,7 +87,7 @@ export default function FilterPanel({
       <section>
         <h3 className={sectionHeader}>Outcome</h3>
         <div className={toggleGroup}>
-          {(["all", "made", "missed"] as const).map((o) => (
+          {[Outcome.All, Outcome.Made, Outcome.Missed].map((o) => (
             <button
               key={o}
               onClick={() => onChange({ ...filters, outcome: o })}
@@ -164,7 +169,11 @@ export default function FilterPanel({
       <section>
         <h3 className={sectionHeader}>Creation</h3>
         <div className={toggleGroup}>
-          {(["all", "assisted", "unassisted"] as const).map((a) => (
+          {[
+            AssistedFilter.All,
+            AssistedFilter.Assisted,
+            AssistedFilter.Unassisted
+          ].map((a) => (
             <button
               key={a}
               onClick={() => onChange({ ...filters, assisted: a })}

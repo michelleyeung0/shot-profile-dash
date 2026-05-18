@@ -2,7 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Shot } from "@/types/shot";
-import { FilterState, DEFAULT_FILTERS } from "@/types/filters";
+import {
+  FilterState,
+  DEFAULT_FILTERS,
+  Outcome,
+  AssistedFilter
+} from "@/types/filters";
 import CourtContainer from "@/components/CourtContainer";
 import FilterPanel from "@/components/FilterPanel";
 import {
@@ -14,16 +19,66 @@ import {
 
 export default function ShotMapPage() {
   const [shots, setShots] = useState<Shot[]>([]);
+  const [players, setPlayers] = useState<{ shooter_id: string; shooter_name: string }[]>([]);
+  const [shotsLoaded, setShotsLoaded] = useState(false);
+  const [shotMetrics, setShotMetrics] = useState<{
+    fgm: number;
+    fga: number;
+    threes_made: number;
+    fg_percent: number;
+    efg_percent: number;
+  } | null>(null);
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [error, setError] = useState<string | null>(null);
+
+  // Fetch all players once on mount for select field
+  useEffect(() => {
+    async function fetchPlayers() {
+      try {
+        const response = await fetch("/api/players");
+        if (!response.ok) throw new Error("Failed to load players");
+        const data = await response.json();
+        setPlayers(data ?? []);
+      } catch (error) {
+        console.error("Error fetching players:", error);
+      }
+    }
+    fetchPlayers();
+  }, []);
 
   useEffect(() => {
     async function fetchShots() {
       try {
-        const response = await fetch("/api/shots");
-        if (!response.ok) throw new Error("Failed to load shot data");
-        const data = await response.json();
-        setShots(data);
+        if (filters.player) {
+          // Build query params with all filters
+          const params = new URLSearchParams();
+          params.append("player", filters.player);
+          if (filters.shotTypes.length > 0) {
+            params.append("shotTypes", filters.shotTypes.join(","));
+          }
+          if (filters.outcome !== Outcome.All) {
+            params.append("outcome", filters.outcome);
+          }
+          if (filters.contestLevels.length > 0) {
+            params.append("contestLevels", filters.contestLevels.join(","));
+          }
+          if (filters.assisted !== AssistedFilter.All) {
+            params.append("assisted", filters.assisted);
+          }
+
+          const response = await fetch(`/api/shots?${params.toString()}`);
+          if (!response.ok) throw new Error("Failed to load shot data");
+          const data = await response.json();
+          setShots(data.shots ?? []);
+          setShotMetrics(data.metrics ?? null);
+        } else {
+          const response = await fetch("/api/shots");
+          if (!response.ok) throw new Error("Failed to load shot data");
+          const data = await response.json();
+          setShots(data);
+          setShotMetrics(null);
+        }
+        setShotsLoaded(true);
       } catch (error) {
         setError(
           error instanceof Error ? error.message : "Something went wrong"
@@ -31,52 +86,56 @@ export default function ShotMapPage() {
       }
     }
     fetchShots();
-  }, []);
-
-  const players = useMemo(() => {
-    const map = new Map<string, string>();
-    shots.forEach((s) => map.set(s.shooter_id, s.shooter_name));
-    return Array.from(map.entries())
-      .map(([id, name]) => ({ shooter_id: id, shooter_name: name }))
-      .sort((a, b) => a.shooter_name.localeCompare(b.shooter_name));
-  }, [shots]);
+  }, [filters]);
 
   const filteredShots = useMemo(() => {
+    // If a player is selected, shots are already filtered by the API
+    if (filters.player !== null) {
+      return shots;
+    }
+
+    // Otherwise, filter shots client-side based on all criteria
     return shots.filter((shot) => {
-      if (filters.player !== null && shot.shooter_id !== filters.player)
-        return false;
       if (
         filters.shotTypes.length > 0 &&
         !filters.shotTypes.includes(shot.shot_type)
       )
         return false;
-      if (filters.outcome === "made" && !shot.outcome) return false;
-      if (filters.outcome === "missed" && shot.outcome) return false;
+      if (filters.outcome === Outcome.Made && !shot.outcome) return false;
+      if (filters.outcome === Outcome.Missed && shot.outcome) return false;
       if (
         filters.contestLevels.length > 0 &&
         !filters.contestLevels.includes(shot.contest_level)
       )
         return false;
-      if (filters.assisted === "assisted" && !shot.assisted) return false;
-      if (filters.assisted === "unassisted" && shot.assisted) return false;
+      if (filters.assisted === AssistedFilter.Assisted && !shot.assisted)
+        return false;
+      if (filters.assisted === AssistedFilter.Unassisted && shot.assisted)
+        return false;
       return true;
     });
   }, [shots, filters]);
 
-  // * including calculations here instead of CourtContainer.tsx since filteredShots is already calculated here
+  // Including calculations here instead of CourtContainer.tsx since filteredShots is already calculated here
   const shotStats = useMemo(() => {
-    if (filteredShots.length === 0) return "";
+    if (!shotsLoaded) return "";
+
+    if (shotMetrics && filters.player !== null) {
+      const { fgm, fga, fg_percent, efg_percent } = shotMetrics;
+      return `${fgm} FGM · ${fga} FGA · ${fg_percent.toFixed(1)}% FG · ${efg_percent.toFixed(1)}% eFG`;
+    }
 
     const fgm = filteredShots.filter((s) => s.outcome).length;
     const fga = filteredShots.length;
     const threesMade = filteredShots.filter(
       (s) => s.outcome && s.is_three_pointer
     ).length;
-    const fgPercent = ((fgm / fga) * 100).toFixed(1);
-    const eFGPercent = (((fgm + 0.5 * threesMade) / fga) * 100).toFixed(1);
+    const fgPercent = fga > 0 ? ((fgm / fga) * 100).toFixed(1) : "0.0";
+    const eFGPercent =
+      fga > 0 ? (((fgm + 0.5 * threesMade) / fga) * 100).toFixed(1) : "0.0";
 
     return `${fgm} FGM · ${fga} FGA · ${fgPercent}% FG · ${eFGPercent}% eFG`;
-  }, [filteredShots]);
+  }, [filteredShots, shotsLoaded, shotMetrics, filters.player]);
 
   if (error)
     return (
@@ -107,6 +166,7 @@ export default function ShotMapPage() {
         <div className="flex-1 min-h-0">
           <CourtContainer
             shots={filteredShots}
+            dataLoaded={shotsLoaded}
             showTooltips={filters.player !== null}
             sublabel={shotStats}
             playerName={

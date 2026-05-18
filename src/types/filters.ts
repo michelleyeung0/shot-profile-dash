@@ -1,17 +1,29 @@
 import { ShotType, ContestLevel } from "./shot";
 
+export enum Outcome {
+  All = "all",
+  Made = "made",
+  Missed = "missed"
+}
+
+export enum AssistedFilter {
+  All = "all",
+  Assisted = "assisted",
+  Unassisted = "unassisted"
+}
+
 export type FilterState = {
   player: string | null;
   shotTypes: ShotType[];
-  outcome: "all" | "made" | "missed";
+  outcome: Outcome;
   contestLevels: ContestLevel[];
-  assisted: "all" | "assisted" | "unassisted";
+  assisted: AssistedFilter;
 };
 
 export const DEFAULT_FILTERS: FilterState = {
   player: null,
   shotTypes: [],
-  outcome: "all",
+  outcome: Outcome.All,
   contestLevels: [],
-  assisted: "all"
+  assisted: AssistedFilter.All
 };
