@@ -166,7 +166,7 @@ export default function ShotMapPage() {
           filters={filters}
           onChange={setFilters}
           players={players}
-          playerFieldDisabled={!playersReady}
+          playerSelectDisabled={!playersReady || !shotsLoaded}
         />
         <div className="flex-1 min-h-0">
           <CourtContainer
