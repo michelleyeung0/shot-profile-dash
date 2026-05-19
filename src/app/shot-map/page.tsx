@@ -32,6 +32,7 @@ export default function ShotMapPage() {
   } | null>(null);
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [error, setError] = useState<string | null>(null);
+  const [playersReady, setPlayersReady] = useState(false);
 
   // Fetch all players once on mount for select field
   useEffect(() => {
@@ -41,6 +42,7 @@ export default function ShotMapPage() {
         if (!response.ok) throw new Error("Failed to load players");
         const data = await response.json();
         setPlayers(data ?? []);
+        setPlayersReady(true);
       } catch (error) {
         console.error("Error fetching players:", error);
       }
@@ -164,6 +166,7 @@ export default function ShotMapPage() {
           filters={filters}
           onChange={setFilters}
           players={players}
+          playerFieldDisabled={!playersReady}
         />
         <div className="flex-1 min-h-0">
           <CourtContainer

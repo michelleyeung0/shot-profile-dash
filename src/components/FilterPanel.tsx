@@ -16,6 +16,7 @@ type FilterPanelProps = {
   filters: FilterState;
   onChange: (filters: FilterState) => void;
   players: Player[];
+  playerFieldDisabled?: boolean;
 };
 
 const sectionHeader =
@@ -36,7 +37,8 @@ function toggleBtnClass(active: boolean) {
 export default function FilterPanel({
   filters,
   onChange,
-  players
+  players,
+  playerFieldDisabled = false
 }: FilterPanelProps) {
   function toggleShotType(type: ShotType) {
     // If 'All' is currently active (empty array), selecting a specific
@@ -90,7 +92,8 @@ export default function FilterPanel({
           onChange={(e) =>
             onChange({ ...filters, player: e.target.value || null })
           }
-          className={selectInput}
+          disabled={playerFieldDisabled}
+          className={`${selectInput} ${playerFieldDisabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
         >
           <option value="">All players</option>
           {players.map((p) => (
